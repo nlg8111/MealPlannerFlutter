@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_planner/welcome/welcome_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +15,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/welcome',
+      routes: {
+        '/welcome': (BuildContext context) => WelcomeScreen(),
+      },
     );
   }
 }
