@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/welcome/welcome_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MealPlannerApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MealPlannerApp extends StatelessWidget {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      initialRoute: '/welcome',
-      routes: {
-        '/welcome': (BuildContext context) => WelcomeScreen(),
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print('Something has gone awfully wrong :(');
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          return MaterialApp(
+            title: 'Meal Planner',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            initialRoute: '/welcome',
+            routes: {
+              '/welcome': (BuildContext context) => WelcomeScreen(),
+            },
+          );
+        }
+
+        return Center(child: CircularProgressIndicator());
       },
     );
   }

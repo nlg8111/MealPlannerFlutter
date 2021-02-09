@@ -10,20 +10,27 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   String email;
   String password;
+  bool isLoading = false;
 
   Future<void> login() async {
     await UserService().login(email, password);
-    // moveToNextScreen();
   }
 
   Future<void> register() async {
     await UserService().register(email, password);
-    // moveToNextScreen();
   }
 
-  void moveToNextScreen() {
-    // Todo: change
-    Navigator.pushNamed(context, '/new-meal');
+  Future<void> authenticate(Function callback) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await callback();
+
+    setState(() {
+      isLoading = false;
+      // Navigator.pushNamed(context, '/new-meal');
+    });
   }
 
   @override
@@ -57,19 +64,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 SizedBox(
                   height: kSize,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FlatButton(
-                      onPressed: login,
-                      child: Text('Login'),
-                    ),
-                    FlatButton(
-                      onPressed: register,
-                      child: Text('Register'),
-                    ),
-                  ],
-                )
+                isLoading
+                    ? CircularProgressIndicator()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FlatButton(
+                            onPressed: () => authenticate(login),
+                            child: Text('Login'),
+                          ),
+                          FlatButton(
+                            onPressed: () => authenticate(register),
+                            child: Text('Register'),
+                          ),
+                        ],
+                      )
               ],
             ),
           ),
