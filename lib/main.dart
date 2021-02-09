@@ -28,7 +28,7 @@ class MealPlannerApp extends StatelessWidget {
             ),
             initialRoute: '/welcome',
             routes: {
-              '/welcome': (BuildContext context) => WelcomeScreen(),
+              '/welcome': (BuildContext context) => Scaffold(body: WelcomeScreen()),
             },
           );
         }
