@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/constants.dart';
 import 'package:meal_planner/user/user_service.dart';
@@ -44,7 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     setState(() {
       isLoading = false;
-      // Navigator.pushNamed(context, '/new-meal');
+      Navigator.pushNamed(context, '/new-meal');
     });
   }
 

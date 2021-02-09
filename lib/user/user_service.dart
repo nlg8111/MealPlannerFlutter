@@ -34,4 +34,6 @@ class UserService {
       throw AuthException(message: e.message);
     }
   }
+
+  bool get isLoggedIn => _auth.currentUser != null;
 }
