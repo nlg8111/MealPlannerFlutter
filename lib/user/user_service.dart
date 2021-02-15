@@ -9,6 +9,8 @@ class AuthException {
 class UserService {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
+  User get user => _auth.currentUser;
+
   Future<User> login(String email, String password) async {
     try {
       UserCredential creds = await _auth.signInWithEmailAndPassword(
@@ -35,5 +37,5 @@ class UserService {
     }
   }
 
-  bool get isLoggedIn => _auth.currentUser != null;
+  bool get isLoggedIn => user != null;
 }

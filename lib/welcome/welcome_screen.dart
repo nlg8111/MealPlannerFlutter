@@ -11,13 +11,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   String email;
   String password;
   bool isLoading = false;
+  UserService _userService = UserService();
 
   Future<void> login() async {
-    await UserService().login(email, password);
+    await _userService.login(email, password);
   }
 
   Future<void> register() async {
-    await UserService().register(email, password);
+    await _userService.register(email, password);
   }
 
   Future<void> authenticate(Function callback) async {
@@ -45,6 +46,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       isLoading = false;
       Navigator.pushNamed(context, '/new-meal');
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (_userService.isLoggedIn) {
+      Future(() {
+        Navigator.pushNamed(context, '/new-meal');
+      });
+    }
   }
 
   @override
@@ -77,7 +90,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               SizedBox(
                 height: kSize,
               ),
-              isLoading
+              isLoading || _userService.isLoggedIn
                   ? CircularProgressIndicator()
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
