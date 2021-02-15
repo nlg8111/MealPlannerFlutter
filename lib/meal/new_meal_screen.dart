@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meal_planner/meal/meal_service.dart';
+import 'package:meal_planner/user/user_service.dart';
+
+import 'meal.dart';
 
 class NewMealScreen extends StatefulWidget {
   @override
@@ -6,15 +10,25 @@ class NewMealScreen extends StatefulWidget {
 }
 
 class _NewMealScreenState extends State<NewMealScreen> {
+  MealService _mealService = MealService(ownerEmail: UserService().user.email);
   String name;
   String recipe;
   String ingredients;
 
   void addNewMeal() async {
-    print('Add meal:');
-    print(name);
-    print(recipe);
-    print(ingredients);
+    Meal meal = Meal(
+      name: name,
+      recipe: recipe,
+      ingredients: ingredients,
+    );
+
+    await _mealService.saveMeal(meal);
+
+    Navigator.pushNamed(
+      context,
+      '/meal',
+      arguments: {'meal': meal},
+    );
   }
 
   @override

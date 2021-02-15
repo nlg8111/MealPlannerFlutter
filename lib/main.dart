@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_planner/meal/meal_screen.dart';
 import 'package:meal_planner/meal/new_meal_screen.dart';
 import 'package:meal_planner/welcome/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,6 +32,11 @@ class MealPlannerApp extends StatelessWidget {
             routes: {
               '/welcome': (BuildContext context) => Scaffold(body: WelcomeScreen()),
               '/new-meal': (BuildContext context) => Scaffold(body: NewMealScreen()),
+              '/meal': (BuildContext context) {
+                dynamic args = ModalRoute.of(context).settings.arguments;
+
+                return Scaffold(body: MealScreen(meal: args['meal']));
+              },
             },
           );
         }
