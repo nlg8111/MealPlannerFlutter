@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/constants.dart';
+import 'package:meal_planner/meal_list/meal_list_route.dart';
 import 'package:meal_planner/user/user_service.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -46,8 +47,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       );
     }
 
-      await Navigator.pushNamed(context, '/new-meal');
-      toggleLoading();
+    await Navigator.pushNamed(context, MealListRoute.key);
+    toggleLoading();
   }
 
   @override
@@ -58,7 +59,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     if (_userService.isLoggedIn) {
       toggleLoading();
       Future(() async {
-        await Navigator.pushNamed(context, '/new-meal');
+        await Navigator.pushNamed(context, MealListRoute.key);
         toggleLoading();
       });
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal_route.dart';
 import 'package:meal_planner/meal/new_meal_route.dart';
+import 'package:meal_planner/meal_list/meal_list_route.dart';
 import 'package:meal_planner/welcome/welcome_route.dart';
 
 class AppRoutes {
@@ -10,5 +11,6 @@ class AppRoutes {
         WelcomeRoute.key: WelcomeRoute.builder,
         NewMealRoute.key: NewMealRoute.builder,
         MealRoute.key: MealRoute.builder,
+        MealListRoute.key: MealListRoute.builder,
       };
 }
