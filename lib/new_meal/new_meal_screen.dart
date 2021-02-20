@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal_service.dart';
 import 'package:meal_planner/user/user_service.dart';
 
-import 'meal.dart';
+import '../meal/meal.dart';
 
 class NewMealScreen extends StatefulWidget {
   @override
