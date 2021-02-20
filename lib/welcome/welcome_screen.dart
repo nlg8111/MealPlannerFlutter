@@ -13,6 +13,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   bool isLoading = false;
   UserService _userService = UserService();
 
+  void toggleLoading() {
+    setState(() {
+      isLoading = !isLoading;
+    });
+  }
+
   Future<void> login() async {
     await _userService.login(email, password);
   }
@@ -22,9 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   Future<void> authenticate(Function callback) async {
-    setState(() {
-      isLoading = true;
-    });
+    toggleLoading();
 
     try {
       await callback();
@@ -42,10 +46,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       );
     }
 
-    setState(() {
-      isLoading = false;
-      Navigator.pushNamed(context, '/new-meal');
-    });
+      await Navigator.pushNamed(context, '/new-meal');
+      toggleLoading();
   }
 
   @override
@@ -54,8 +56,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
 
     if (_userService.isLoggedIn) {
-      Future(() {
-        Navigator.pushNamed(context, '/new-meal');
+      toggleLoading();
+      Future(() async {
+        await Navigator.pushNamed(context, '/new-meal');
+        toggleLoading();
       });
     }
   }
@@ -90,7 +94,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               SizedBox(
                 height: kSize,
               ),
-              isLoading || _userService.isLoggedIn
+              isLoading
                   ? CircularProgressIndicator()
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
