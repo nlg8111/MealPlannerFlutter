@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:meal_planner/meal/meal_screen.dart';
-import 'package:meal_planner/meal/new_meal_screen.dart';
-import 'package:meal_planner/welcome/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:meal_planner/app_routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,6 +9,7 @@ void main() {
 
 class MealPlannerApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final AppRoutes _routes = AppRoutes();
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +27,8 @@ class MealPlannerApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
-            initialRoute: '/welcome',
-            routes: {
-              '/welcome': (BuildContext context) => Scaffold(body: WelcomeScreen()),
-              '/new-meal': (BuildContext context) => Scaffold(body: NewMealScreen()),
-              '/meal': (BuildContext context) {
-                dynamic args = ModalRoute.of(context).settings.arguments;
-
-                return Scaffold(body: MealScreen(meal: args['meal']));
-              },
-            },
+            initialRoute: _routes.initialRoute,
+            routes: _routes.map,
           );
         }
 
