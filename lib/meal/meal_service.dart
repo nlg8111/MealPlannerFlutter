@@ -5,23 +5,23 @@ import 'meal.dart';
 
 class MealService {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  CollectionReference collection;
+  CollectionReference _collection;
   final String ownerEmail;
 
   MealService({@required this.ownerEmail}) {
-    collection = _firestore.collection('$ownerEmail.meals');
+    _collection = _firestore.collection('$ownerEmail.meals');
   }
 
   Future<void> saveNewMeal(Meal meal) async {
-    return collection.add(_documentFromMeal(meal));
+    return _collection.add(_documentFromMeal(meal));
   }
 
   Future<void> updateMeal(Meal meal) async {
-    return collection.doc(meal.documentId).set(_documentFromMeal(meal));
+    return _collection.doc(meal.documentId).set(_documentFromMeal(meal));
   }
 
   Stream<List<Meal>> get allMealsStream {
-    return collection.snapshots().map(
+    return _collection.snapshots().map(
       (QuerySnapshot event) {
         return event.docs
             .map(
@@ -47,5 +47,9 @@ class MealService {
       ingredients: doc.get('ingredients'),
       documentId: doc.id,
     );
+  }
+
+  void deleteMeal(Meal meal) {
+    _collection.doc(meal.documentId).delete();
   }
 }
