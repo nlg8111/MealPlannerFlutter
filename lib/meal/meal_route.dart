@@ -6,6 +6,6 @@ class MealRoute {
   static Widget builder(BuildContext context) {
     dynamic args = ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(body: MealScreen(meal: args['meal']));
+    return MealScreen(meal: args['meal']);
   }
 }

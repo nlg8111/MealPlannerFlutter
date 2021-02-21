@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal.dart';
 import 'package:meal_planner/meal/meal_route.dart';
 import 'package:meal_planner/meal/meal_service.dart';
+import 'package:meal_planner/new_meal/new_meal_route.dart';
 import 'package:meal_planner/user/user_service.dart';
 
 class MealList extends StatelessWidget {
@@ -27,27 +28,36 @@ class MealList extends StatelessWidget {
   }
 }
 
-class MealListScreen extends StatefulWidget {
-  @override
-  _MealListScreenState createState() => _MealListScreenState();
-}
-
-class _MealListScreenState extends State<MealListScreen> {
+class MealListScreen extends StatelessWidget {
   MealService _mealService = MealService(ownerEmail: UserService().user.email);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: _mealService.allMealsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
-        if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Meals'),
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.pushNamed(context, NewMealRoute.key),
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          )
+        ],
+      ),
+      body: StreamBuilder(
+        stream: _mealService.allMealsStream,
+        builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        return MealList(meals: snapshot.data);
-      },
+          return MealList(meals: snapshot.data);
+        },
+      ),
     );
   }
 }

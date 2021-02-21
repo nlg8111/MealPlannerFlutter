@@ -12,12 +12,12 @@ class MealService {
     collection = _firestore.collection('$ownerEmail.meals');
   }
 
-  Future<void> saveMeal(Meal meal) async {
-    return collection.add({
-      'name': meal.name,
-      'recipe': meal.recipe,
-      'ingredients': meal.ingredients,
-    });
+  Future<void> saveNewMeal(Meal meal) async {
+    return collection.add(_documentFromMeal(meal));
+  }
+
+  Future<void> updateMeal(Meal meal) async {
+    return collection.doc(meal.documentId).set(_documentFromMeal(meal));
   }
 
   Stream<List<Meal>> get allMealsStream {
@@ -30,6 +30,14 @@ class MealService {
             .toList();
       },
     );
+  }
+
+  Map<String, dynamic> _documentFromMeal(Meal meal) {
+    return {
+      'name': meal.name,
+      'recipe': meal.recipe,
+      'ingredients': meal.ingredients,
+    };
   }
 
   Meal _mealFromDocument(DocumentSnapshot doc) {

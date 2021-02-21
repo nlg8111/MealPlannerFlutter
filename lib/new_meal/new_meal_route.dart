@@ -4,6 +4,8 @@ import 'package:meal_planner/new_meal/new_meal_screen.dart';
 class NewMealRoute {
   static String key = '/new-meal';
   static Widget builder(BuildContext context) {
-    return Scaffold(body: NewMealScreen());
+    dynamic args = ModalRoute.of(context).settings.arguments;
+
+    return NewMealScreen(meal: args['meal']);
   }
 }
