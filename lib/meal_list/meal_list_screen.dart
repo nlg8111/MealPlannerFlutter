@@ -6,8 +6,8 @@ import 'package:meal_planner/new_meal/meal_add_edit_route.dart';
 import 'package:meal_planner/user/user_service.dart';
 
 class MealList extends StatelessWidget {
-  MealService _mealService = MealService(ownerEmail: UserService().user.email);
-  List<Meal> meals;
+  final MealService _mealService = MealService(ownerEmail: UserService().user.email);
+  final List<Meal> meals;
   MealList({@required this.meals});
 
   void navigateTo(BuildContext context, Meal meal) {
@@ -20,7 +20,7 @@ class MealList extends StatelessWidget {
       children: meals
           .map(
             (Meal meal) => Dismissible(
-              background: Container(
+              secondaryBackground: Container(
                 padding: EdgeInsets.symmetric(horizontal: 30.0),
                 alignment: Alignment.centerRight,
                 color: Colors.red,
@@ -29,7 +29,30 @@ class MealList extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
+              background: Container(
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
+                alignment: Alignment.centerLeft,
+                color: Colors.green,
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              ),
               confirmDismiss: (DismissDirection direction) async {
+                if (direction == DismissDirection.startToEnd) {
+                  // TODO: implement Add to plan.
+
+                  Scaffold.of(context)
+                    ..removeCurrentSnackBar()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text('${meal.name} added to current plan.'),
+                      ),
+                    );
+
+                  return false;
+                }
+
                 return showDialog(
                   context: context,
                   barrierDismissible: true,
@@ -48,14 +71,22 @@ class MealList extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop(true);
                         },
-                        child: Text('Delete'),
+                        child: Text(
+                          'Delete',
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
                     ],
                   ),
                 );
               },
               onDismissed: (DismissDirection direction) async {
+                if (direction != DismissDirection.endToStart) {
+                  return;
+                }
+
                 await _mealService.deleteMeal(meal);
+
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
                     content: Text('${meal.name} deleted.'),
