@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal.dart';
-import 'package:meal_planner/new_meal/new_meal_route.dart';
+import 'package:meal_planner/new_meal/meal_add_edit_route.dart';
 
 class MealScreen extends StatefulWidget {
   final Meal meal;

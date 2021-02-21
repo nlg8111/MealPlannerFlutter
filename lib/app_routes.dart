@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal_route.dart';
 import 'package:meal_planner/meal_list/meal_list_route.dart';
-import 'package:meal_planner/new_meal/new_meal_route.dart';
+import 'package:meal_planner/new_meal/meal_add_edit_route.dart';
 import 'package:meal_planner/welcome/welcome_route.dart';
 
 class AppRoutes {

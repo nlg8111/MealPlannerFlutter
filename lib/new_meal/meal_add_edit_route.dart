@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meal_planner/new_meal/new_meal_screen.dart';
+import 'package:meal_planner/new_meal/meal_add_edit_screen.dart';
 
 class NewMealRoute {
-  static String key = '/new-meal';
+  static String key = '/meal-add-edit';
   static Widget builder(BuildContext context) {
     dynamic args = ModalRoute.of(context).settings.arguments;
 
-    return NewMealScreen(meal: args['meal']);
+    return MealAddEditScreen(meal: args['meal']);
   }
 }

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:meal_planner/meal/meal_route.dart';
 import 'package:meal_planner/meal/meal_service.dart';
 import 'package:meal_planner/user/user_service.dart';
 
 import '../meal/meal.dart';
 
-class NewMealScreen extends StatefulWidget {
-  Meal meal;
-  NewMealScreen({this.meal});
+class MealAddEditScreen extends StatefulWidget {
+  final Meal meal;
+  MealAddEditScreen({this.meal});
 
   @override
-  _NewMealScreenState createState() => _NewMealScreenState(meal: meal);
+  _MealAddEditScreenState createState() => _MealAddEditScreenState(meal: meal);
 }
 
-class _NewMealScreenState extends State<NewMealScreen> {
+class _MealAddEditScreenState extends State<MealAddEditScreen> {
   MealService _mealService = MealService(ownerEmail: UserService().user.email);
 
   String name;
@@ -20,7 +21,7 @@ class _NewMealScreenState extends State<NewMealScreen> {
   String ingredients;
   String documentId;
 
-  _NewMealScreenState({Meal meal}) {
+  _MealAddEditScreenState({Meal meal}) {
     name = meal.name;
     recipe = meal.recipe;
     ingredients = meal.ingredients;
@@ -40,7 +41,7 @@ class _NewMealScreenState extends State<NewMealScreen> {
 
       Navigator.pushReplacementNamed(
         context,
-        '/meal',
+        MealRoute.key,
         arguments: {'meal': meal},
       );
     } else {

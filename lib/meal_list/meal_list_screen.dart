@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal.dart';
 import 'package:meal_planner/meal/meal_route.dart';
 import 'package:meal_planner/meal/meal_service.dart';
-import 'package:meal_planner/new_meal/new_meal_route.dart';
+import 'package:meal_planner/new_meal/meal_add_edit_route.dart';
 import 'package:meal_planner/user/user_service.dart';
 
 class MealList extends StatelessWidget {
