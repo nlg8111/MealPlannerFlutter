@@ -19,4 +19,25 @@ class MealService {
       'ingredients': meal.ingredients,
     });
   }
+
+  Stream<List<Meal>> get allMealsStream {
+    return collection.snapshots().map(
+      (QuerySnapshot event) {
+        return event.docs
+            .map(
+              (DocumentSnapshot change) => _mealFromDocument(change),
+            )
+            .toList();
+      },
+    );
+  }
+
+  Meal _mealFromDocument(DocumentSnapshot doc) {
+    return Meal(
+      name: doc.get('name'),
+      recipe: doc.get('recipe'),
+      ingredients: doc.get('ingredients'),
+      documentId: doc.id,
+    );
+  }
 }
