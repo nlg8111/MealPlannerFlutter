@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal.dart';
 import 'package:meal_planner/meal/meal_screen.dart';
 import 'package:meal_planner/meal/meal_service.dart';
+import 'package:meal_planner/meal_plan/meal_plan_service.dart';
 import 'package:meal_planner/new_meal/meal_add_edit_screen.dart';
 import 'package:meal_planner/user/user_service.dart';
 
 class MealList extends StatelessWidget {
-  final MealService _mealService = MealService(ownerEmail: UserService().user.email);
+  final MealService mealService;
+  final MealPlanService _mealPlanService = MealPlanService(ownerEmail: UserService().user.email);
   final List<Meal> meals;
-  MealList({@required this.meals});
+  final bool right;
+
+  MealList({@required this.meals, @required this.mealService, this.right = true});
 
   void navigateTo(BuildContext context, Meal meal) {
     Navigator.push(
@@ -34,18 +38,24 @@ class MealList extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              background: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30.0),
-                alignment: Alignment.centerLeft,
-                color: Colors.green,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-              ),
+              background: right
+                  ? Container(
+                      padding: EdgeInsets.symmetric(horizontal: 30.0),
+                      alignment: Alignment.centerLeft,
+                      color: Colors.green,
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    )
+                  : Container(color: Colors.transparent),
               confirmDismiss: (DismissDirection direction) async {
                 if (direction == DismissDirection.startToEnd) {
-                  // TODO: implement Add to plan.
+                  if (!right) {
+                    return false;
+                  }
+
+                  await _mealPlanService.saveNewMeal(meal);
 
                   Scaffold.of(context)
                     ..removeCurrentSnackBar()
@@ -90,7 +100,7 @@ class MealList extends StatelessWidget {
                   return;
                 }
 
-                await _mealService.deleteMeal(meal);
+                await mealService.deleteMeal(meal);
 
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
@@ -140,7 +150,10 @@ class MealListScreen extends StatelessWidget {
             );
           }
 
-          return MealList(meals: snapshot.data);
+          return MealList(
+            meals: snapshot.data,
+            mealService: _mealService,
+          );
         },
       ),
     );

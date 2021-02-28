@@ -6,9 +6,8 @@ import 'meal.dart';
 class MealService {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   CollectionReference _collection;
-  final String ownerEmail;
 
-  MealService({@required this.ownerEmail}) {
+  MealService({@required String ownerEmail}) {
     _collection = _firestore.collection('$ownerEmail.meals');
   }
 
@@ -49,7 +48,7 @@ class MealService {
     );
   }
 
-  void deleteMeal(Meal meal) {
-    _collection.doc(meal.documentId).delete();
+  Future<void> deleteMeal(Meal meal) {
+    return _collection.doc(meal.documentId).delete();
   }
 }
