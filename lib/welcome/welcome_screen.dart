@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/constants.dart';
-import 'package:meal_planner/meal_list/meal_list_route.dart';
+import 'package:meal_planner/meal_list/meal_list_screen.dart';
 import 'package:meal_planner/user/user_service.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -47,7 +47,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       );
     }
 
-    await Navigator.pushNamed(context, MealListRoute.key);
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MealListScreen(),
+      ),
+    );
     toggleLoading();
   }
 
@@ -58,7 +63,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     if (_userService.isLoggedIn) {
       toggleLoading();
       Future(() async {
-        await Navigator.pushNamed(context, MealListRoute.key);
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MealListScreen(),
+          ),
+        );
         toggleLoading();
       });
     }

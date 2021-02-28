@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal.dart';
-import 'package:meal_planner/meal/meal_route.dart';
+import 'package:meal_planner/meal/meal_screen.dart';
 import 'package:meal_planner/meal/meal_service.dart';
-import 'package:meal_planner/new_meal/meal_add_edit_route.dart';
+import 'package:meal_planner/new_meal/meal_add_edit_screen.dart';
 import 'package:meal_planner/user/user_service.dart';
 
 class MealList extends StatelessWidget {
@@ -11,7 +11,12 @@ class MealList extends StatelessWidget {
   MealList({@required this.meals});
 
   void navigateTo(BuildContext context, Meal meal) {
-    Navigator.pushNamed(context, MealRoute.key, arguments: {'meal': meal});
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => MealScreen(meal: meal),
+      ),
+    );
   }
 
   @override
@@ -106,7 +111,7 @@ class MealList extends StatelessWidget {
 }
 
 class MealListScreen extends StatelessWidget {
-  MealService _mealService = MealService(ownerEmail: UserService().user.email);
+  final MealService _mealService = MealService(ownerEmail: UserService().user.email);
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +120,10 @@ class MealListScreen extends StatelessWidget {
         title: Text('Meals'),
         actions: [
           FlatButton(
-            onPressed: () => Navigator.pushNamed(context, NewMealRoute.key),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (BuildContext context) => MealAddEditScreen()),
+            ),
             child: Icon(
               Icons.add,
               color: Colors.white,

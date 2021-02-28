@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_planner/meal/meal.dart';
-import 'package:meal_planner/new_meal/meal_add_edit_route.dart';
+import 'package:meal_planner/new_meal/meal_add_edit_screen.dart';
 
 class MealScreen extends StatefulWidget {
   final Meal meal;
@@ -26,8 +26,14 @@ class _MealScreenState extends State<MealScreen> {
               color: Colors.white,
             ),
             onPressed: () async {
-              var newMeal =
-                  await Navigator.pushNamed(context, NewMealRoute.key, arguments: {'meal': meal});
+              var newMeal = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => MealAddEditScreen(
+                    meal: meal,
+                  ),
+                ),
+              );
 
               print(newMeal);
 

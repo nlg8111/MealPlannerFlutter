@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meal_planner/meal/meal_route.dart';
+import 'package:meal_planner/meal/meal_screen.dart';
 import 'package:meal_planner/meal/meal_service.dart';
 import 'package:meal_planner/user/user_service.dart';
 
@@ -22,10 +22,10 @@ class _MealAddEditScreenState extends State<MealAddEditScreen> {
   String documentId;
 
   _MealAddEditScreenState({Meal meal}) {
-    name = meal.name;
-    recipe = meal.recipe;
-    ingredients = meal.ingredients;
-    documentId = meal.documentId;
+    name = meal?.name;
+    recipe = meal?.recipe;
+    ingredients = meal?.ingredients;
+    documentId = meal?.documentId;
   }
 
   void save() async {
@@ -39,10 +39,9 @@ class _MealAddEditScreenState extends State<MealAddEditScreen> {
     if (documentId == null) {
       await _mealService.saveNewMeal(meal);
 
-      Navigator.pushReplacementNamed(
+      Navigator.pushReplacement(
         context,
-        MealRoute.key,
-        arguments: {'meal': meal},
+        MaterialPageRoute(builder: (context) => MealScreen(meal: meal)),
       );
     } else {
       await _mealService.updateMeal(meal);
